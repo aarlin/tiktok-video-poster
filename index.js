@@ -7,7 +7,8 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
+  const TIKTOK_SHORT_PATTERN = /^(?:https?:\/\/)?(?:vm\.tiktok\.com)\/([0-9a-z_-]+)/i;
+  if (TIKTOK_SHORT_PATTERN.test(msg.content)) {
     msg.channel.send('pong');
   }
 });
