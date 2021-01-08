@@ -1,5 +1,9 @@
 # TikTok Video Poster
 
+## Join Your Server
+
+https://discord.com/api/oauth2/authorize?client_id=796569339247591425&permissions=256000&scope=bot
+
 ## Problem to Solve
 
 Sharing Tiktok videos on Discord just gives the link to share.  
