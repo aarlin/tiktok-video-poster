@@ -1,12 +1,14 @@
 const TikTokScraper = require('tiktok-scraper');
 const https = require('https');
 const axios = require('axios');
+const fs = require('fs');
 
 const webid = Math.floor(Math.random() * 1.00e18);
 const headers = {
+    "responseType": "blob",
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.80 Safari/537.36",
     "referer": "https://www.tiktok.com/",
-    "cookie": `tt_webid_v2=${webid}`
+    "cookie": `custom_did=${webid}`
 };
 
 function getOriginTikTokUrl(url) {
@@ -16,10 +18,8 @@ function getOriginTikTokUrl(url) {
             if (!videoMeta || !videoMeta.collector || !videoMeta.collector[0].videoUrl) {
                 return reject(new Error("Couldn't resolve stream."));
             }
-            
-            axios.get(videoMeta.collector[0].videoUrl, { headers }).then(response => {
-                resolve(response);
-            });
+
+            resolve(videoMeta.collector[0].videoUrl);
         } catch (e) {
             console.log(e);
             reject("Couldn't resolve stream.");

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cli": "node node_modules\\tiktok-scraper\\bin\\cli -d video"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.17.0",
+    "playwright": "^1.7.1",
     "tiktok-app-api": "^1.4.1",
     "tiktok-scraper": "^1.4.12",
     "tiktok-search": "^2.0.3"
