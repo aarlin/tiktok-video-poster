@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cli": "node node_modules\\tiktok-scraper\\bin\\cli -d video"
+    "cli-windows": "node node_modules\\tiktok-scraper\\bin\\cli -d video",
+    "cli-unix": "node node_modules/tiktok-scraper/bin/cli -d video"
   },
   "keywords": [],
   "author": "",

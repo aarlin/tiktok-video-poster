@@ -14,7 +14,7 @@ client.on('ready', () => {
 client.on('message', async (msg) => {
 	if (config.TIKTOK_PATTERN.test(msg.content) || config.TIKTOK_SHORT_PATTERN.test(msg.content)) {
 		try {
-			exec(`npm run cli ${msg.content}`, (error, stdout, stderr) => {
+			exec(`${config.NPM_SCRIPT} ${msg.content}`, (error, stdout, stderr) => {
 				if (error) {
 					msg.reply(`error: ${error.message}`);
 					return;
@@ -27,8 +27,9 @@ client.on('message', async (msg) => {
 				const fileSize = fileUtils.getFileSize(fileName);
 				if (fileName && fileSize <= config.MAX_FILE_SIZE_UPLOAD) {
 					const attachment = new MessageAttachment(fileName);
-					msg.channel.send(`${msg.author},`, attachment);
-					fileUtils.deleteFile(fileName);
+					msg.channel.send(`${msg.author},`, attachment).then(() => {
+						fileUtils.deleteFile(fileName);
+					});
 				}
 				else {
 					msg.reply(`Could not locate video or file size exceeded ${utils.convertBytesToMB(config.MAX_FILE_SIZE_UPLOAD)} MB.`);

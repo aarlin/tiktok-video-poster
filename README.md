@@ -17,6 +17,8 @@ This discord bot recognizes tiktok video links and uploads the video for easier 
 - [ ] look at upload limits for bot
 - [ ] reply to user with username of poster with link, description & tags
 - [ ] fix issues with windows & linux related backslash & forward slash
+- [ ] convert to typescript
+- [ ] add images to readme 
 
 ## References
 
