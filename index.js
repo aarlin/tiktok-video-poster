@@ -1,20 +1,19 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-const TikTokScraper = require('tiktok-scraper');
+const { Client, MessageAttachment } = require('discord.js');
+const client = new Client();
+
 require('dotenv').config();
-const tiktok = require('./tiktok');
 const fs = require('fs');
 const { exec } = require("child_process");
-
-const TIKTOK_PATTERN = /^(?:https?:\/\/)?(?:www\.)?(?:tiktok\.com)\/@([0-9a-z_-]+)\/video\/(\d+)/i;
-const TIKTOK_SHORT_PATTERN = /^(?:https?:\/\/)?(?:vm\.tiktok\.com)\/([0-9a-z_-]+)/i;
+const fileUtils = require('./fileUtils');
+const config = require('./config').botConfiguration;
+const utils = require('./utils');
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', async (msg) => {
-  if (TIKTOK_PATTERN.test(msg.content) || TIKTOK_SHORT_PATTERN.test(msg.content)) {
+  if (config.TIKTOK_PATTERN.test(msg.content) || config.TIKTOK_SHORT_PATTERN.test(msg.content)) {
     try {
       exec(`npm run cli ${msg.content}`, (error, stdout, stderr) => {
         if (error) {
@@ -25,9 +24,17 @@ client.on('message', async (msg) => {
           msg.reply(`stderr: ${stderr}`);
           return;
         }
-        msg.reply(`stdout: ${stdout}`);
+        let fileName = fileUtils.getFileName(stdout);
+        let fileSize = fileUtils.getFileSize(fileName);
+        if (fileName && fileSize <= config.MAX_FILE_SIZE_UPLOAD) {
+          const attachment = new MessageAttachment(fileName);
+          msg.channel.send(`${msg.author},`, attachment);
+        } else {
+          msg.reply(`Could not locate video or file size exceeded ${utils.convertBytesToMB(config.MAX_FILE_SIZE_UPLOAD)} MB.`)
+        }
       });
     } catch (error) {
+      msg.reply(error)
       console.log(error);
     }
   }

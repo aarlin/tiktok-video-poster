@@ -12,14 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.1",
-    "cheerio": "^1.0.0-rc.5",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.17.0",
-    "playwright": "^1.7.1",
-    "tiktok-app-api": "^1.4.1",
-    "tiktok-scraper": "^1.4.12",
-    "tiktok-search": "^2.0.3"
+    "tiktok-scraper": "^1.4.12"
   }
 }
