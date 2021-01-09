@@ -14,6 +14,7 @@ client.on('ready', () => {
 client.on('message', async (msg) => {
 	if (config.TIKTOK_PATTERN.test(msg.content) || config.TIKTOK_SHORT_PATTERN.test(msg.content)) {
 		try {
+			const metaData = await utils.getVideoMetaData(msg.content);
 			exec(`${config.NPM_SCRIPT} ${msg.content}`, (error, stdout, stderr) => {
 				if (error) {
 					msg.reply(`error: ${error.message}`);
@@ -27,7 +28,7 @@ client.on('message', async (msg) => {
 				const fileSize = fileUtils.getFileSize(fileName);
 				if (fileName && fileSize <= config.MAX_FILE_SIZE_UPLOAD) {
 					const attachment = new MessageAttachment(fileName);
-					msg.channel.send(`${msg.author},`, attachment).then(() => {
+					msg.channel.send(metaData.text, attachment).then(() => {
 						fileUtils.deleteFile(fileName);
 					});
 				}
