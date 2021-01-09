@@ -3,7 +3,7 @@ const botConfiguration = {
 	TIKTOK_PATTERN: /^(?:https?:\/\/)?(?:www\.)?(?:tiktok\.com)\/@([0-9a-z_-]+)\/video\/(\d+)/i,
 	TIKTOK_SHORT_PATTERN: /^(?:https?:\/\/)?(?:vm\.tiktok\.com)\/([0-9a-z_-]+)/i,
 	NPM_SCRIPT: process.platform === 'win32' || process.platform === 'win64' ?
-		'npm run cli-windows' : 'npm run cli-linux',
+		'npm run cli-windows' : 'npm run cli-unix',
 };
 
 module.exports = {
