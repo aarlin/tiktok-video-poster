@@ -8,8 +8,15 @@ This discord bot recognizes tiktok video links and uploads the video for easier 
 
 ## Install
 
-docker build -t tiktok .
+`docker build -t tiktok .`  
+`docker run tiktok`  
 
+## Todos
+
+- [ ] put into ec2 w/ docker
+- [ ] look at upload limits for bot
+- [ ] reply to user with username of poster with link, description & tags
+- [ ] fix issues with windows & linux related backslash & forward slash
 
 ## References
 

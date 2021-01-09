@@ -29,9 +29,6 @@ client.on('message', async (msg) => {
 					const attachment = new MessageAttachment(fileName);
 					msg.channel.send(`${msg.author},`, attachment);
 					fileUtils.deleteFile(fileName);
-					// TODO: put into ec2 w/ docker
-					// TODO: look at upload limits for bot
-					// TODO: reply to user with username of poster with link, description & tags
 				}
 				else {
 					msg.reply(`Could not locate video or file size exceeded ${utils.convertBytesToMB(config.MAX_FILE_SIZE_UPLOAD)} MB.`);
