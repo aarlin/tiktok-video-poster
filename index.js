@@ -9,6 +9,7 @@ const utils = require('./utils');
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
+	client.setActivity(`serving ${client.guilds.cache.size} servers`);
 });
 
 client.on('message', async (msg) => {
