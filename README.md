@@ -26,6 +26,8 @@ Change .env_sample to .env
 - [x] fix issues with windows & linux related backslash & forward slash
 - [ ] convert to typescript
 - [ ] add images to readme 
+- [ ] fix promise reject catch errors with dead tiktok link https://vm.tiktok.com/ZMJ7XTrRx/
+- [ ] check other repos like this
 
 ## References
 
