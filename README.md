@@ -6,6 +6,13 @@ Sharing Tiktok videos on Discord just gives the link to share.
 The users of the Discord server have to manually click the link to be sent to a browser to view the video.  
 This discord bot recognizes tiktok video links and uploads the video for easier viewing.  
 
+## Run Locally
+
+Add Discord bot token into .env_sample  
+Change .env_sample to .env  
+`npm i`  
+`npm run start`
+
 ## Install
 
 `docker build -t tiktok .`  

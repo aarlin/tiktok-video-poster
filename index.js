@@ -9,7 +9,9 @@ const utils = require('./utils');
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-	client.setActivity(`serving ${client.guilds.cache.size} servers`);
+	client.user.setActivity(`${client.guilds.cache.size} servers`, { type: 'LISTENING' })
+		.then(presence => console.log(`Activity set to ${presence.activities[0].name}`))
+		.catch(console.error);
 });
 
 client.on('message', async (msg) => {
