@@ -27,7 +27,12 @@ function getVideoMetaData(url) {
 	});
 }
 
+function createVideoText(metadata) {
+	return '@' + metadata.name + '\n' + metadata.text ;
+}
+
 module.exports = {
 	convertBytesToMB,
 	getVideoMetaData,
+	createVideoText,
 };

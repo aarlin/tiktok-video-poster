@@ -31,7 +31,7 @@ client.on('message', async (msg) => {
 				const fileSize = fileUtils.getFileSize(fileName);
 				if (fileName && fileSize <= config.MAX_FILE_SIZE_UPLOAD) {
 					const attachment = new MessageAttachment(fileName);
-					msg.channel.send(metaData.text, attachment).then(() => {
+					msg.channel.send(utils.createVideoText(metaData), attachment).then(() => {
 						fileUtils.deleteFile(fileName);
 					});
 				}
