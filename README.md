@@ -36,7 +36,7 @@ Change .env_sample to .env
 - [x] add images to readme 
 - [ ] fix promise reject catch errors with dead tiktok link https://vm.tiktok.com/ZMJ7XTrRx/
 - [ ] check other repos like this
-- [ ] change method of retrieving video, due to security concerns ex. `https://vm.tiktok.com/ZMJ7XTrRx/; ls -la`
+- [x] change method of retrieving video, due to security concerns ex. `https://vm.tiktok.com/ZMJ7XTrRx/; ls -la`
 
 ## References
 

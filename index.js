@@ -7,6 +7,7 @@ const fileUtils = require('./fileUtils');
 const config = require('./config').botConfiguration;
 const utils = require('./utils');
 
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 	client.user.setActivity(`${client.guilds.cache.size} servers`, { type: 'LISTENING' })
@@ -17,8 +18,10 @@ client.on('ready', () => {
 client.on('message', async (msg) => {
 	if (config.TIKTOK_PATTERN.test(msg.content) || config.TIKTOK_SHORT_PATTERN.test(msg.content)) {
 		try {
-			const metaData = await utils.getVideoMetaData(msg.content);
-			exec(`${config.NPM_SCRIPT} ${msg.content}`, (error, stdout, stderr) => {
+			const videoUrl = msg.content.match(config.TIKTOK_SHORT_PATTERN)[0];
+			const metaData = await utils.getVideoMetaData(videoUrl);
+
+			exec(`${config.NPM_SCRIPT} ${videoUrl}`, (error, stdout, stderr) => {
 				if (error) {
 					msg.reply(`error: ${error.message}`);
 					return;

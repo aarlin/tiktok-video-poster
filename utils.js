@@ -14,9 +14,12 @@ function getVideoMetaData(url) {
 		try {
 			TikTokScraper.getVideoMeta(url, { headers }).then((metaData) => {
 				resolve({
+					headers: metaData.headers,
 					text: metaData.collector[0].text,
 					name: metaData.collector[0].authorMeta.name,
 					nickname: metaData.collector[0].authorMeta.nickname,
+					id: metaData.collector[0].id,
+					videoUrl: metaData.collector[0].videoUrl,
 				});
 			});
 
