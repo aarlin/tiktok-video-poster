@@ -23,11 +23,11 @@ client.on('message', async (msg) => {
 
 			exec(`${config.NPM_SCRIPT} ${videoUrl}`, (error, stdout, stderr) => {
 				if (error) {
-					msg.reply(`error: ${error.message}`);
+					msg.reply(`${error.message}`);
 					return;
 				}
 				if (stderr) {
-					msg.reply(`stderr: ${stderr}`);
+					msg.reply(`${stderr}`);
 					return;
 				}
 				const fileName = fileUtils.getFileName(stdout);
