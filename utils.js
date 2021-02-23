@@ -31,11 +31,22 @@ function getVideoMetaData(url) {
 }
 
 function createVideoText(metadata) {
-	return '@' + metadata.name + '\n' + metadata.text ;
+	return '@' + metadata.name + '\n' + metadata.text;
+}
+
+function createSplitVideoText(metadata, part, totalParts) {
+	const adjustedPart = part + 1;
+	if (adjustedPart === 1) {
+		return '@' + metadata.name + '\n' + metadata.text + '\n' + `Part ${adjustedPart} of ${totalParts}`;
+	}
+	else {
+		return `Part ${adjustedPart} of ${totalParts}`;
+	}
 }
 
 module.exports = {
 	convertBytesToMB,
 	getVideoMetaData,
 	createVideoText,
+	createSplitVideoText,
 };
