@@ -27,17 +27,11 @@ async function getFileSize(file) {
 	}
 }
 
-async function deleteFile(file) {
-	try {
-		if (file) {
-			await fs.unlink(file);
-			console.log(`Deleted file: ${file}`);
-		}
-	}
-	catch (error) {
-		console.error(error);
-	}
-
+function deleteFile(file) {
+	return new Promise((resolve, reject) => {
+		fs.unlink(file);
+		console.log(`Deleted file: ${file}`);
+	});
 }
 
 function getNameWithoutFileFormat(fileName) {
