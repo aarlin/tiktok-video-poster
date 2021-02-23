@@ -16,6 +16,8 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.17.0",
+    "ffmetadata": "^1.6.0",
+    "ffmpeg": "0.0.4",
     "split-file": "^2.2.1",
     "tiktok-scraper": "^1.4.12"
   }
