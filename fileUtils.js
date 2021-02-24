@@ -1,4 +1,6 @@
 const { promises: fs } = require('fs');
+const { getVideoDurationInSeconds } = require('get-video-duration');
+const mediaSplit = require('media-split');
 
 function getFileName(stdout) {
 	if (stdout.indexOf('Video location:')) {
@@ -52,6 +54,22 @@ async function changeFileName(fileName, newFileName) {
 	}
 }
 
+async function splitFile(fileName) {
+	const videoDuration = await getVideoDurationInSeconds(fileName);
+	const splitDuration = `[00:00 - 00:${Math.floor(Math.round(videoDuration / 2))}]`;
+	const splitDurationEnd = `[00:${Math.floor(Math.round(videoDuration / 2))}]`;
+
+	return new Promise((resolve, reject) => {
+		const fileWithoutFileFormat = this.getNameWithoutFileFormat(fileName);
+		const split = new mediaSplit({
+			input: fileName,
+			sections: [`${splitDuration} ${fileWithoutFileFormat}-part1`, `${splitDurationEnd} ${fileWithoutFileFormat}-part2`],
+			format: 'mp4',
+		});
+		resolve(split.parse());
+	});
+}
+
 module.exports = {
-	getFileName, getFileSize, deleteFile, getNameWithoutFileFormat, appendFileFormat, changeFileName,
+	getFileName, getFileSize, deleteFile, getNameWithoutFileFormat, appendFileFormat, changeFileName, splitFile,
 };
