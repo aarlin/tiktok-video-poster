@@ -29,7 +29,6 @@ client.on('message', async (msg) => {
 				console.log(fileName);
 				const attachment = new MessageAttachment(fileName);
 				await msg.channel.send(utils.createVideoText(selectedMetadata), attachment);
-				await fileUtils.deleteFile(fileName);
 			}
 			else {
 				const splitFiles = await fileUtils.splitFile(fileName);
@@ -39,9 +38,14 @@ client.on('message', async (msg) => {
 					console.log(file.name);
 					const attachment = new MessageAttachment(file.name);
 					await msg.channel.send(`Part ${index + 1} of ${splitFiles.length}`, attachment);
-					// await fileUtils.deleteFile(file.name);
+				}
+
+				for (const file of splitFiles) {
+					await fileUtils.deleteFile(file.name);
 				}
 			}
+
+			await fileUtils.deleteFile(fileName);
 		}
 		catch (error) {
 			msg.channel.send(error);
