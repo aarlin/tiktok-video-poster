@@ -16,7 +16,6 @@
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "ffmetadata": "^1.6.0",
     "get-video-duration": "^3.0.2",
     "media-split": "^5.2.0",
     "split-file": "^2.2.1",

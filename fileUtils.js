@@ -76,5 +76,6 @@ async function splitFile(fileName) {
 }
 
 module.exports = {
-	getFileName, getFileSize, deleteFile, getNameWithoutFileFormat, appendFileFormat, changeFileName, splitFile,
+	getFileName, getFileSize, deleteFile, getNameWithoutFileFormat,
+	appendFileFormat, changeFileName, splitFile,
 };
