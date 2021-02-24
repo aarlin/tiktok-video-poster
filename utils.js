@@ -1,41 +1,55 @@
 const TikTokScraper = require('tiktok-scraper');
+const { exec } = require('child_process');
+
+function execShellCommand(cmd) {
+	return new Promise((resolve, reject) => {
+		exec(cmd, (error, stdout, stderr) => {
+			if (error) {
+				console.warn(error);
+			}
+			resolve(stdout ? stdout : stderr);
+		});
+	});
+}
 
 function convertBytesToMB(bytes) {
 	return bytes / 1e6;
 }
 
 function getVideoMetaData(url) {
-	const headers = {
-		'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.80 Safari/537.36',
-		'referer': 'https://www.tiktok.com/',
+	return TikTokScraper.getVideoMeta(url, {});
+}
+
+function getMetadata(videoMeta) {
+	return {
+		headers: videoMeta.headers,
+		text: videoMeta.collector[0].text,
+		name: videoMeta.collector[0].authorMeta.name,
+		nickname: videoMeta.collector[0].authorMeta.nickname,
+		id: videoMeta.collector[0].id,
+		videoUrl: videoMeta.collector[0].videoUrl,
 	};
-
-	return new Promise((resolve, reject) => {
-		try {
-			TikTokScraper.getVideoMeta(url, { headers }).then((metaData) => {
-				resolve({
-					headers: metaData.headers,
-					text: metaData.collector[0].text,
-					name: metaData.collector[0].authorMeta.name,
-					nickname: metaData.collector[0].authorMeta.nickname,
-					id: metaData.collector[0].id,
-					videoUrl: metaData.collector[0].videoUrl,
-				});
-			});
-
-		} catch (e) {
-			console.log(e);
-			reject('Couldn\'t resolve stream.');
-		}
-	});
 }
 
 function createVideoText(metadata) {
-	return '@' + metadata.name + '\n' + metadata.text ;
+	return '@' + metadata.name + '\n' + metadata.text;
+}
+
+function createSplitVideoText(metadata, part, totalParts) {
+	const adjustedPart = part + 1;
+	if (adjustedPart === 1) {
+		return '@' + metadata.name + '\n' + metadata.text + '\n' + `Part ${adjustedPart} of ${totalParts}`;
+	}
+	else {
+		return `Part ${adjustedPart} of ${totalParts}`;
+	}
 }
 
 module.exports = {
+	execShellCommand,
 	convertBytesToMB,
 	getVideoMetaData,
+	getMetadata,
 	createVideoText,
+	createSplitVideoText,
 };

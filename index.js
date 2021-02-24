@@ -2,11 +2,9 @@ const { Client, MessageAttachment } = require('discord.js');
 const client = new Client();
 
 require('dotenv').config();
-const { exec } = require('child_process');
 const fileUtils = require('./fileUtils');
 const config = require('./config').botConfiguration;
 const utils = require('./utils');
-
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -20,31 +18,37 @@ client.on('message', async (msg) => {
 		try {
 			const videoUrl = msg.content.match(config.TIKTOK_SHORT_PATTERN)[0];
 			const metaData = await utils.getVideoMetaData(videoUrl);
+			const selectedMetadata = utils.getMetadata(metaData);
 
-			exec(`${config.NPM_SCRIPT} ${videoUrl}`, (error, stdout, stderr) => {
-				if (error) {
-					msg.reply(`${error.message}`);
-					return;
+			const tiktokVideo = await utils.execShellCommand(`${config.NPM_SCRIPT} ${videoUrl}`);
+
+			const fileName = fileUtils.getFileName(tiktokVideo);
+			const fileSize = await fileUtils.getFileSize(fileName);
+
+			if (fileName && fileSize <= config.MAX_FILE_SIZE_UPLOAD) {
+				console.log(fileName);
+				const attachment = new MessageAttachment(fileName);
+				await msg.channel.send(utils.createVideoText(selectedMetadata), attachment);
+			}
+			else {
+				const splitFiles = await fileUtils.splitFile(fileName);
+				await msg.channel.send(utils.createVideoText(selectedMetadata));
+
+				for (const [index, file] of splitFiles.entries()) {
+					console.log(file.name);
+					const attachment = new MessageAttachment(file.name);
+					await msg.channel.send(`Part ${index + 1} of ${splitFiles.length}`, attachment);
 				}
-				if (stderr) {
-					msg.reply(`${stderr}`);
-					return;
+
+				for (const file of splitFiles) {
+					await fileUtils.deleteFile(file.name);
 				}
-				const fileName = fileUtils.getFileName(stdout);
-				const fileSize = fileUtils.getFileSize(fileName);
-				if (fileName && fileSize <= config.MAX_FILE_SIZE_UPLOAD) {
-					const attachment = new MessageAttachment(fileName);
-					msg.channel.send(utils.createVideoText(metaData), attachment).then(() => {
-						fileUtils.deleteFile(fileName);
-					});
-				}
-				else {
-					msg.reply(`Could not locate video or file size exceeded ${utils.convertBytesToMB(config.MAX_FILE_SIZE_UPLOAD)} MB.`);
-				}
-			});
+			}
+
+			await fileUtils.deleteFile(fileName);
 		}
 		catch (error) {
-			msg.reply(error);
+			msg.channel.send(error);
 			console.log(error);
 		}
 	}

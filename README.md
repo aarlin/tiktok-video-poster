@@ -29,13 +29,13 @@ Change .env_sample to .env
 ## Todos
 
 - [x] put into ec2 w/ docker
-- [ ] look at upload limits for bot
+- [x] look at upload limits for bot
 - [x] reply to user with username of poster with link, description & tags
 - [x] fix issues with windows & linux related backslash & forward slash
 - [ ] convert to typescript
 - [x] add images to readme 
-- [ ] fix promise reject catch errors with dead tiktok link https://vm.tiktok.com/ZMJ7XTrRx/
-- [ ] check other repos like this
+- [x] fix promise reject catch errors with dead tiktok link https://vm.tiktok.com/ZMJ7XTrRx/
+- [x] check other repos like this
 - [x] change method of retrieving video, due to security concerns ex. `https://vm.tiktok.com/ZMJ7XTrRx/; ls -la`
 
 ## References
