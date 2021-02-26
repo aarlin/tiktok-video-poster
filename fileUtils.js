@@ -1,3 +1,4 @@
+const config = require('./config').botConfiguration;
 const { promises: fs } = require('fs');
 const { getVideoDurationInSeconds } = require('get-video-duration');
 const mediaSplit = require('media-split');
@@ -60,19 +61,49 @@ async function changeFileName(fileName, newFileName) {
 }
 
 async function splitFile(fileName) {
+	const fileSize = await getFileSize(fileName);
 	const videoDuration = await getVideoDurationInSeconds(fileName);
-	const splitDuration = `[00:00 - 00:${Math.floor(Math.round(videoDuration / 2))}]`;
-	const splitDurationEnd = `[00:${Math.floor(Math.round(videoDuration / 2))}]`;
 
-	return new Promise((resolve, reject) => {
-		const fileWithoutFileFormat = this.getNameWithoutFileFormat(fileName);
-		const split = new mediaSplit({
-			input: fileName,
-			sections: [`${splitDuration} ${fileWithoutFileFormat}-part1`, `${splitDurationEnd} ${fileWithoutFileFormat}-part2`],
-			format: 'mp4',
+	if (fileSize >= config.MAX_FILE_SIZE_UPLOAD * 2) {
+		const timeIntoFourths = Math.floor(Math.round(videoDuration / 4));
+		const splitDurationFirst = `[00:00 - 00:${timeIntoFourths}]`;
+		const splitDurationSecond = `[00:${timeIntoFourths} - 00:${timeIntoFourths * 2}]`;
+		const splitDurationThird = `[00:${timeIntoFourths * 2} - 00:${timeIntoFourths * 3}]`;
+		const splitDurationFourth = `[00:${timeIntoFourths * 3}]`;
+
+		return new Promise((resolve, reject) => {
+			const fileWithoutFileFormat = this.getNameWithoutFileFormat(fileName);
+			const split = new mediaSplit({
+				input: fileName,
+				sections: [
+					`${splitDurationFirst} ${fileWithoutFileFormat}-part1`,
+					`${splitDurationSecond} ${fileWithoutFileFormat}-part2`,
+					`${splitDurationThird} ${fileWithoutFileFormat}-part3`,
+					`${splitDurationFourth} ${fileWithoutFileFormat}-part4`,
+				],
+				format: 'mp4',
+			});
+			resolve(split.parse());
 		});
-		resolve(split.parse());
-	});
+	}
+	else {
+		const timeIntoHalves = Math.floor(Math.round(videoDuration / 2));
+		const splitDurationFirst = `[00:00 - 00:${timeIntoHalves}]`;
+		const splitDurationSecond = `[00:${timeIntoHalves}]`;
+
+		return new Promise((resolve, reject) => {
+			const fileWithoutFileFormat = this.getNameWithoutFileFormat(fileName);
+			const split = new mediaSplit({
+				input: fileName,
+				sections: [
+					`${splitDurationFirst} ${fileWithoutFileFormat}-part1`,
+					`${splitDurationSecond} ${fileWithoutFileFormat}-part2`
+				],
+				format: 'mp4',
+			});
+			resolve(split.parse());
+		});
+	}
 }
 
 module.exports = {
