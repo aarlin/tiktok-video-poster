@@ -34,10 +34,10 @@ client.on('message', async (msg) => {
 				const splitFiles = await fileUtils.splitFile(fileName);
 				await msg.channel.send(utils.createVideoText(selectedMetadata));
 
-				for (const [index, file] of splitFiles.entries()) {
-					console.log(file.name);
-					const attachment = new MessageAttachment(file.name);
-					await msg.channel.send(`Part ${index + 1} of ${splitFiles.length}`, attachment);
+				for (let i = 0; i < splitFiles.length; i++) {
+					console.log(splitFiles[i].name);
+					const attachment = new MessageAttachment(splitFiles[i].name);
+					await msg.channel.send(`Part ${i + 1} of ${splitFiles.length}`, attachment);
 				}
 
 				for (const file of splitFiles) {
