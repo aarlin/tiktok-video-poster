@@ -65,6 +65,7 @@ async function splitFile(fileName) {
 	const videoDuration = await getVideoDurationInSeconds(fileName);
 
 	if (fileSize >= config.MAX_FILE_SIZE_UPLOAD * 2) {
+		console.log(`Splitting into fourths due because video size is greater than ${config.MAX_FILE_SIZE_UPLOAD}`);
 		const timeIntoFourths = Math.floor(Math.round(videoDuration / 4));
 		const splitDurationFirst = `[00:00 - 00:${timeIntoFourths}]`;
 		const splitDurationSecond = `[00:${timeIntoFourths} - 00:${timeIntoFourths * 2}]`;
