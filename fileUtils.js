@@ -88,6 +88,7 @@ async function splitFile(fileName) {
 		});
 	}
 	else {
+		console.log('Splitting into halves');
 		const timeIntoHalves = Math.floor(Math.round(videoDuration / 2));
 		const splitDurationFirst = `[00:00 - 00:${timeIntoHalves}]`;
 		const splitDurationSecond = `[00:${timeIntoHalves}]`;
