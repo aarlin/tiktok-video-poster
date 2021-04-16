@@ -22,6 +22,6 @@
     "tiktok-scraper": "^1.4.12"
   },
   "devDependencies": {
-    "eslint": "^7.20.0"
+    "eslint": "7.20.0"
   }
 }
