@@ -19,7 +19,7 @@
     "get-video-duration": "^3.0.2",
     "media-split": "^5.2.0",
     "split-file": "^2.2.1",
-    "tiktok-scraper": "^1.4.12"
+    "tiktok-scraper": "^1.4.9"
   },
   "devDependencies": {
     "eslint": "^7.20.0"

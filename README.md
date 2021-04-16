@@ -42,3 +42,5 @@ Change .env_sample to .env
 
 discord.js  
 tiktok-search  
+https://github.com/clarketm/proxy-list  
+https://github.com/ShiftyTR/Proxy-List  

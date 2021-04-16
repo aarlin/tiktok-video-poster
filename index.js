@@ -5,6 +5,8 @@ require('dotenv').config();
 const fileUtils = require('./fileUtils');
 const config = require('./config').botConfiguration;
 const utils = require('./utils');
+const fs = require("fs");
+const proxyList = fs.readFileSync("./proxy-list.txt", 'utf-8').split('\n');
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -17,7 +19,7 @@ client.on('message', async (msg) => {
 	if (config.TIKTOK_PATTERN.test(msg.content) || config.TIKTOK_SHORT_PATTERN.test(msg.content)) {
 		try {
 			const videoUrl = msg.content.match(config.TIKTOK_SHORT_PATTERN)[0];
-			const metaData = await utils.getVideoMetaData(videoUrl);
+			const metaData = await utils.getVideoMetaData(videoUrl, proxyList);
 			const selectedMetadata = utils.getMetadata(metaData);
 
 			const tiktokVideo = await utils.execShellCommand(`${config.NPM_SCRIPT} ${videoUrl}`);

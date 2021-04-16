@@ -16,8 +16,11 @@ function convertBytesToMB(bytes) {
 	return bytes / 1e6;
 }
 
-function getVideoMetaData(url) {
-	return TikTokScraper.getVideoMeta(url, {});
+function getVideoMetaData(url, proxyList) {
+	const options = { 
+		proxy: proxyList
+	}
+	return TikTokScraper.getVideoMeta(url, options);
 }
 
 function getMetadata(videoMeta) {
